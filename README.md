@@ -1,5 +1,7 @@
 # req-res-testng
 
+Use Java 8
+
 Run test in folder 
 
 ```
