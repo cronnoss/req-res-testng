@@ -9,6 +9,7 @@ import org.aeonbits.owner.ConfigFactory;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.*;
 
 public class GetUsersTest {
@@ -37,5 +38,24 @@ public class GetUsersTest {
                 .expectedResult(Conditions.bodyField("support", hasEntry("text", "To keep ReqRes free, contributions towards server costs are appreciated!")))
 
                 .asPojo(UsersResponse.class);
+    }
+
+    @Test
+    void testGetUsers1() {
+
+        when().
+                get("/api/users?page={pageNumber}", pageNumber).
+                then().
+                statusCode(200).
+                body("page", notNullValue(),
+                        "per_page", notNullValue(),
+                        "total", notNullValue(),
+                        "total_pages", notNullValue(),
+                        "data.id", notNullValue(),
+                        "data.email", notNullValue(),
+                        "data.first_name", notNullValue(),
+                        "data.last_name", notNullValue(),
+                        "data.avatar", notNullValue()
+                );
     }
 }
